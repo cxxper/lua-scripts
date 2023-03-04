@@ -22,7 +22,7 @@ local config = inicfg.load(inicfg.load({
 	        AutomateShipment = true,
           	AutomatePizza = true,
         	AutomateGetCrates = false, 
-	        AutomateMiner = false,
+	        AutomateMiner = true,
 	},
 	GetCratesConfig = {
 		enablePot = true,
@@ -32,6 +32,11 @@ local config = inicfg.load(inicfg.load({
 		enableAll = true,
 		enableBoat = true,
 		enableAir = true
+	},
+	Placeholder = {
+		Automate1 = false,
+		Automate2 = false,
+		Automate3 = false,
 	}
 }, inifile ))
 
@@ -71,6 +76,7 @@ function init_cmds()
         sampRegisterChatCommand("togcrate", togcrate)
         sampRegisterChatCommand("togpizza", togpizza)
         sampRegisterChatCommand("togminer", togminer)
+	sampRegisterChatCommand("mine", startmining)
 end
 
 -- SHIPMENT & AUTOGETCRATES --
@@ -86,12 +92,10 @@ function sampev.onServerMessage(color, text)
 	-- activate if AutomateShipment returns true and found strings ship1 and ship2
 	if config.Global.AutomateShipment then
          	if ship2 then
-		          sampAddChatMessage("first string detect", 0xFFFFFF)
 		          check2 = true	
 	        end
 
 	        if ship1 then
-		          sampAddChatMessage("second string detect", 0xFFFFFF)
 		          check1 = true
          	end
 		if check2 and check1 then
@@ -205,22 +209,21 @@ function init_pizza()
 	end
 end
 
+-- WORK IN PROGRESS : MINER --
+
 function init_miner()
    -- work in progress
          sampAddChatMessage("work in progress, expect bugs from this feature.", -1)
         if config.Global.AutomateMiner then
-		if isCharInArea2d(playerPed, 2669.0247,-800.6752,64.9986, 2663.3477,-805.6645,63.2277,false ) then
-			startmining()
+		if isCharInArea2d(playerPed, 2679.8337,-810.9595,2667.1487,-824.3948, false) then
+			sampAddChatMessage("DEBUG: in area", -1)
 		end
    end
 end
 
--- WORK IN PROGRESS : MINER --
-
 function startmining()
-	sampAddChatMessage("DEBUG : trying to mine", -1)
+	sampAddChatMessage("DEBUG: trying to mine", -1)
 	setVirtualKeyDown(1, true)
-	wait(2500)
 	setVirtualKeyDown(1, false)
 end
 
